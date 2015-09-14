@@ -1,7 +1,0 @@
-D:\ICT\Semester 3\SWE20001-Development Project 1 - Tools and Practices\battleships\battleships\obj\x86\Debug\BattleShip.csprojResolveAssemblyReference.cache
-D:\ICT\Semester 3\SWE20001-Development Project 1 - Tools and Practices\battleships\battleships\bin\Debug\lib\SwinGame.dll.mdb
-D:\ICT\Semester 3\SWE20001-Development Project 1 - Tools and Practices\battleships\battleships\bin\Debug\ConsoleApplication.exe
-D:\ICT\Semester 3\SWE20001-Development Project 1 - Tools and Practices\battleships\battleships\bin\Debug\ConsoleApplication.pdb
-D:\ICT\Semester 3\SWE20001-Development Project 1 - Tools and Practices\battleships\battleships\bin\Debug\SwinGame.dll
-D:\ICT\Semester 3\SWE20001-Development Project 1 - Tools and Practices\battleships\battleships\obj\x86\Debug\ConsoleApplication.exe
-D:\ICT\Semester 3\SWE20001-Development Project 1 - Tools and Practices\battleships\battleships\obj\x86\Debug\ConsoleApplication.pdb
