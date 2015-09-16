@@ -106,18 +106,43 @@ public class SeaGrid : ISeaGrid
 	public void MoveShip(int row, int col, ShipName ship, Direction direction)
 	{
 		Ship newShip = _Ships[ship];
-		newShip.Remove();
-		AddShip(row, col, direction, newShip);
+        //@Lai Hoang Thanh Nguyen 16/09/2015 keep old position when ship location having error
+        int oldRow = newShip.Row;
+        int oldColumn = newShip.Column;
+        Direction oldDirection = newShip.Direction;
+        newShip.Remove();
+		AddShip(row, col, direction, newShip, oldDirection, oldRow, oldColumn);
 	}
 
-	/// <summary>
-	/// AddShip add a ship to the SeaGrid
-	/// </summary>
-	/// <param name="row">row coordinate</param>
-	/// <param name="col">col coordinate</param>
-	/// <param name="direction">direction of ship</param>
-	/// <param name="newShip">the ship</param>
-	private void AddShip(int row, int col, Direction direction, Ship newShip)
+    /// <summary>
+    /// @Lai Hoang Thanh Nguyen 
+    /// 16/09/2015
+    /// ChangeShipDirection allows for ships directing in current location.
+    /// </summary>
+    /// <param name="ship"></param>
+    /// <param name="direction"></param>
+    public void ChangeShipDirection(ShipName ship, Direction direction)
+    {
+        Ship newShip = _Ships[ship];
+        int oldRow = newShip.Row;
+        int oldColumn = newShip.Column;
+        Direction oldDirection = newShip.Direction;
+        newShip.Remove();
+        AddShip(oldRow, oldColumn, direction, newShip, oldDirection, oldRow, oldColumn);
+    }
+
+
+    /// <summary>
+    ///  AddShip add a ship to the SeaGrid
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="col"></param>
+    /// <param name="direction"></param>
+    /// <param name="newShip"></param>
+    /// <param name="oldRow"></param>
+    /// <param name="oldCol"></param>
+    /// <param name="oldDirection"></param>
+    private void AddShip(int row, int col, Direction direction, Ship newShip, Direction? oldDirection = null, int oldRow = -99, int oldCol = -99)
 	{
 		try {
 			int size = newShip.Size;
@@ -126,13 +151,16 @@ public class SeaGrid : ISeaGrid
 			int dRow = 0;
 			int dCol = 0;
 
-			if (direction == Direction.LeftRight) {
-				dRow = 0;
-				dCol = 1;
-			} else {
-				dRow = 1;
-				dCol = 0;
-			}
+            if (direction == Direction.LeftRight)
+            {
+                dRow = 0;
+                dCol = 1;
+            }
+            else if (direction == Direction.UpDown)
+            {
+                dRow = 1;
+                dCol = 0;
+            }
 
 			//place ship's tiles in array and into ship object
 			int i = 0;
@@ -146,12 +174,22 @@ public class SeaGrid : ISeaGrid
 				currentCol += dCol;
 				currentRow += dRow;
 			}
-
+            //@Lai Hoang Thanh Nguyen 16/09/2015 
+            //fixed error wrong passing row and col variables
 			newShip.Deployed(direction, row, col);
 		} catch (Exception e) {
-			newShip.Remove();
-			//if fails remove the ship
-			throw new ApplicationException(e.Message);
+            //@LaiHoang Thanh Nguyen 16/09/2015 re-generate old position instead of deleting a new wrong position. 
+            if (oldRow != -99 && oldDirection != null)
+            {
+                newShip.Remove();
+                AddShip(oldRow, oldCol, oldDirection.Value, newShip); 
+            }
+            else
+            {
+                newShip.Remove();
+            }
+                //if fails remove the ship
+            throw new ApplicationException(e.Message);
 
 		} finally {
 			if (Changed != null) {

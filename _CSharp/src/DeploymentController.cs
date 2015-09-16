@@ -77,10 +77,12 @@ static class DeploymentController
 			if (HumanPlayer.ReadyToDeploy & IsMouseInRectangle(PLAY_BUTTON_LEFT, TOP_BUTTONS_TOP, PLAY_BUTTON_WIDTH, TOP_BUTTONS_HEIGHT)) {
 				EndDeployment();
 			} else if (IsMouseInRectangle(UP_DOWN_BUTTON_LEFT, TOP_BUTTONS_TOP, DIR_BUTTONS_WIDTH, TOP_BUTTONS_HEIGHT)) {
+				_currentDirection = Direction.UpDown; //@Lai Hoang Thanh Nguyen 16/09/2015 fixed issue
+                DoChangeDirection();
+            } else if (IsMouseInRectangle(LEFT_RIGHT_BUTTON_LEFT, TOP_BUTTONS_TOP, DIR_BUTTONS_WIDTH, TOP_BUTTONS_HEIGHT)) {
 				_currentDirection = Direction.LeftRight;
-			} else if (IsMouseInRectangle(LEFT_RIGHT_BUTTON_LEFT, TOP_BUTTONS_TOP, DIR_BUTTONS_WIDTH, TOP_BUTTONS_HEIGHT)) {
-				_currentDirection = Direction.LeftRight;
-			} else if (IsMouseInRectangle(RANDOM_BUTTON_LEFT, TOP_BUTTONS_TOP, RANDOM_BUTTON_WIDTH, TOP_BUTTONS_HEIGHT)) {
+                DoChangeDirection();
+            } else if (IsMouseInRectangle(RANDOM_BUTTON_LEFT, TOP_BUTTONS_TOP, RANDOM_BUTTON_WIDTH, TOP_BUTTONS_HEIGHT)) {
 				HumanPlayer.RandomizeDeployment();
 			}
 		}
@@ -103,7 +105,8 @@ static class DeploymentController
 		//Calculate the row/col clicked
 		int row = 0;
 		int col = 0;
-		row = Convert.ToInt32(Math.Floor((mouse.Y) / (CELL_HEIGHT + CELL_GAP)));
+        //@Minh Huynh Fixed Issue 1 the ship locates wrong position with mouse clicked position
+        row = Convert.ToInt32(Math.Floor((mouse.Y - FIELD_TOP) / (CELL_HEIGHT + CELL_GAP)));
 		col = Convert.ToInt32(Math.Floor((mouse.X - FIELD_LEFT) / (CELL_WIDTH + CELL_GAP)));
 
 		if (row >= 0 & row < HumanPlayer.PlayerGrid.Height) {
@@ -118,6 +121,23 @@ static class DeploymentController
 			}
 		}
 	}
+
+    /// <summary>
+    /// @Lai Hoang Thanh Nguyen 16/09/2015
+    /// This is used to change direction of selected ship.
+    /// </summary>
+    private static void DoChangeDirection()
+    {
+        try
+        {
+            HumanPlayer.PlayerGrid.ChangeShipDirection(_selectedShip, _currentDirection);
+        }
+        catch (Exception ex)
+        {
+            Audio.PlaySoundEffect(GameSound("Error"));
+            Message = ex.Message;
+        }
+    }
 
 	/// <summary>
 	/// Draws the deployment screen showing the field and the ships
