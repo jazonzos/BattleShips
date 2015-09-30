@@ -30,7 +30,7 @@ static class EndingGameController
 									GameFont("ArialLarge"), FontAlignment.AlignCenter, 150, 150,
 				 					(SwinGame.ScreenWidth()/2), (SwinGame.ScreenHeight()/2));
 		} else {
-			SwinGame.DrawTextLines("-- WINNER --", Color.White, Color.Transparent, 
+			SwinGame.DrawTextLines("YOU WIN!", Color.White, Color.Transparent, 
 									GameFont("ArialLarge"), FontAlignment.AlignCenter, 150, 150, 
 									(SwinGame.ScreenWidth()/2), (SwinGame.ScreenHeight()/2));
 		}
