@@ -24,7 +24,7 @@ static class EndingGameController
 	{
 		DrawField(ComputerPlayer.PlayerGrid, ComputerPlayer, true);
 		DrawSmallField(HumanPlayer.PlayerGrid, HumanPlayer);
-///Fix Win/Lose Notitication
+///Fix Issue 6
 		if (HumanPlayer.IsDestroyed) {
 			SwinGame.DrawTextLines("YOU LOSE!", Color.White, Color.Transparent, 
 									GameFont("ArialLarge"), FontAlignment.AlignCenter, 150, 150,
