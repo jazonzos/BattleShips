@@ -200,8 +200,9 @@ static class HighScoreController
 			_Scores.RemoveAt(_Scores.Count - 1);
 			_Scores.Add(s);
 			_Scores.Sort();
-
-			EndCurrentState();
+            //@Issue7 @Lai Hoang Thanh Nguyen 30/09/2015 call SaveScore function to save update score to txt files
+            SaveScores();
+            EndCurrentState();
 		}
 	}
 }
