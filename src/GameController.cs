@@ -330,6 +330,8 @@ static class GameController
 				break;
 			case GameState.Discovering:
 				DrawDiscovery();
+				//Visibale Map
+				DrawField(ComputerPlayer.PlayerGrid, ComputerPlayer, true);
 				break;
 			case GameState.EndingGame:
 				DrawEndOfGame();
