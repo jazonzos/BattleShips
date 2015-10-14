@@ -15,9 +15,8 @@ using System.Diagnostics;
 public class AIEasyPlayer : AIPlayer
 {
 	/// <summary>
-	/// Private enumarator for AI states. currently there are two states,
-	/// the AI can be searching for a ship, or if it has found a ship it will
-	/// target the same ship
+	/// Private enumarator for AI states.
+	/// the AI can be searching for a ship.
 	/// </summary>
 	private enum AIStates
 	{
