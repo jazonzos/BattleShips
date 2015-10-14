@@ -13,6 +13,7 @@ using System.Diagnostics;
 /// grid. This can be used in conjuncture with the SeaGridAdapter to
 /// mask the position of the ships.
 /// </remarks>
+[Serializable]
 public class SeaGrid : ISeaGrid
 {
 
@@ -23,6 +24,12 @@ public class SeaGrid : ISeaGrid
 	private Dictionary<ShipName, Ship> _Ships;
 
 	private int _ShipsKilled = 0;
+
+    public Tile[,] GetGameTitles {
+        get { return _GameTiles; }
+    }
+    
+
 	/// <summary>
 	/// The sea grid has changed and should be redrawn.
 	/// </summary>
@@ -106,7 +113,7 @@ public class SeaGrid : ISeaGrid
 	public void MoveShip(int row, int col, ShipName ship, Direction direction)
 	{
 		Ship newShip = _Ships[ship];
-        //@Lai Hoang Thanh Nguyen 16/09/2015 keep old position when ship location having error
+        //@Issue2 @Lai Hoang Thanh Nguyen 16/09/2015 keep old position when ship location having error
         int oldRow = newShip.Row;
         int oldColumn = newShip.Column;
         Direction oldDirection = newShip.Direction;
@@ -115,6 +122,7 @@ public class SeaGrid : ISeaGrid
 	}
 
     /// <summary>
+    /// @Issue3
     /// @Lai Hoang Thanh Nguyen 
     /// 16/09/2015
     /// ChangeShipDirection allows for ships directing in current location.
@@ -178,7 +186,7 @@ public class SeaGrid : ISeaGrid
             //fixed error wrong passing row and col variables
 			newShip.Deployed(direction, row, col);
 		} catch (Exception e) {
-            //@LaiHoang Thanh Nguyen 16/09/2015 re-generate old position instead of deleting a new wrong position. 
+            //@Issue2 @LaiHoang Thanh Nguyen 16/09/2015 re-generate old position instead of deleting a new wrong position. 
             if (oldRow != -99 && oldDirection != null)
             {
                 newShip.Remove();

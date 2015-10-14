@@ -75,13 +75,13 @@ static class DeploymentController
 			}
 
 			if (HumanPlayer.ReadyToDeploy & IsMouseInRectangle(PLAY_BUTTON_LEFT, TOP_BUTTONS_TOP, PLAY_BUTTON_WIDTH, TOP_BUTTONS_HEIGHT)) {
-				EndDeployment();
+				EndDeployment(isFirst: true);
 			} else if (IsMouseInRectangle(UP_DOWN_BUTTON_LEFT, TOP_BUTTONS_TOP, DIR_BUTTONS_WIDTH, TOP_BUTTONS_HEIGHT)) {
 				_currentDirection = Direction.UpDown; //@Lai Hoang Thanh Nguyen 16/09/2015 fixed issue
-                DoChangeDirection();
+                DoChangeDirection(); //@Lai Hoang Thanh Nguyen 16/09/2015 fixed issue3
             } else if (IsMouseInRectangle(LEFT_RIGHT_BUTTON_LEFT, TOP_BUTTONS_TOP, DIR_BUTTONS_WIDTH, TOP_BUTTONS_HEIGHT)) {
 				_currentDirection = Direction.LeftRight;
-                DoChangeDirection();
+                DoChangeDirection(); //@Lai Hoang Thanh Nguyen 16/09/2015 fixed issue3
             } else if (IsMouseInRectangle(RANDOM_BUTTON_LEFT, TOP_BUTTONS_TOP, RANDOM_BUTTON_WIDTH, TOP_BUTTONS_HEIGHT)) {
 				HumanPlayer.RandomizeDeployment();
 			}
@@ -123,7 +123,7 @@ static class DeploymentController
 	}
 
     /// <summary>
-    /// @Lai Hoang Thanh Nguyen 16/09/2015
+    /// @Issue3 @Lai Hoang Thanh Nguyen 16/09/2015
     /// This is used to change direction of selected ship.
     /// </summary>
     private static void DoChangeDirection()

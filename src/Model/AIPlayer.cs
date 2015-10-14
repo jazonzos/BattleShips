@@ -11,14 +11,15 @@ using SwinGameSDK;
 /// The AIPlayer is a type of player. It can readomly deploy ships, it also has the
 /// functionality to generate coordinates and shoot at tiles
 /// </summary>
+[Serializable]
 public abstract class AIPlayer : Player
 {
 
-	/// <summary>
-	/// Location can store the location of the last hit made by an
-	/// AI Player. The use of which determines the difficulty.
-	/// </summary>
-	protected class Location
+    /// <summary>
+    /// Location can store the location of the last hit made by an
+    /// AI Player. The use of which determines the difficulty.
+    /// </summary>
+    protected class Location
 	{
 		private int _Row;
 
@@ -79,16 +80,16 @@ public abstract class AIPlayer : Player
 	}
 
 
-	public AIPlayer(BattleShipsGame game) : base(game)
+    public AIPlayer(BattleShipsGame game) : base(game)
 	{
 	}
 
-	/// <summary>
-	/// Generate a valid row, column to shoot at
-	/// </summary>
-	/// <param name="row">output the row for the next shot</param>
-	/// <param name="column">output the column for the next show</param>
-	protected abstract void GenerateCoords(ref int row, ref int column);
+    /// <summary>
+    /// Generate a valid row, column to shoot at
+    /// </summary>
+    /// <param name="row">output the row for the next shot</param>
+    /// <param name="column">output the column for the next show</param>
+    protected abstract void GenerateCoords(ref int row, ref int column);
 
 	/// <summary>
 	/// The last shot had the following result. Child classes can use this
@@ -115,7 +116,7 @@ public abstract class AIPlayer : Player
 
 			GenerateCoords(ref row, ref column);
 			//generate coordinates for shot
-			result = _game.Shoot(row, column);
+			result = _game.Shoot(row, column, 1);
 			//take shot
 			ProcessShot(row, column, result);
 		} while (result.Value != ResultOfAttack.Miss && result.Value != ResultOfAttack.GameOver && !SwinGame.WindowCloseRequested());

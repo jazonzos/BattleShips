@@ -11,6 +11,7 @@ using System.Diagnostics;
 /// It also allows players to shoot and swap turns between player. It will also check if players
 /// are destroyed.
 /// </summary>
+[Serializable]
 public class BattleShipsGame
 {
 
@@ -33,22 +34,49 @@ public class BattleShipsGame
 	private Player[] _players = new Player[3];
 
 	private int _playerIndex = 0;
-	/// <summary>
-	/// The current player.
-	/// </summary>
-	/// <value>The current player</value>
-	/// <returns>The current player</returns>
-	/// <remarks>This value will switch between the two players as they have their attacks</remarks>
-	public Player Player {
+
+    public void setPlayerIndex(int currentIndex)
+    {
+        _playerIndex = currentIndex;
+    }
+
+    public int getPlayerIndex()
+    {
+        return _playerIndex;
+    }
+  
+    /// <summary>
+    /// The current player.
+    /// </summary>
+    /// <value>The current player</value>
+    /// <returns>The current player</returns>
+    /// <remarks>This value will switch between the two players as they have their attacks</remarks>
+    public Player Player {
 		get { return _players[_playerIndex]; }
 	}
 
-	/// <summary>
+   
+
+    /// <summary>
+    /// @Thanh
+    /// 05/10/2015
 	/// AddDeployedPlayer adds both players and will make sure
 	/// that the AI player deploys all ships
 	/// </summary>
-	/// <param name="p"></param>
-	public void AddDeployedPlayer(Player p)
+	public void ResetDeployedPlayer()
+    {
+        _players[0] = null;
+        _players[1] = null;
+        _players[2] = null;
+        _playerIndex = 0;
+    }
+
+    /// <summary>
+    /// AddDeployedPlayer adds both players and will make sure
+    /// that the AI player deploys all ships
+    /// </summary>
+    /// <param name="p"></param>
+    public void AddDeployedPlayer(Player p)
 	{
 		if (_players[0] == null) {
 			_players[0] = p;
@@ -77,8 +105,12 @@ public class BattleShipsGame
 	/// <param name="row">the row fired upon</param>
 	/// <param name="col">the column fired upon</param>
 	/// <returns>The result of the attack</returns>
-	public AttackResult Shoot(int row, int col)
+	public AttackResult Shoot(int row, int col, int playerIndex =-1)
 	{
+        if (playerIndex != -1)
+        {
+            _playerIndex = playerIndex;
+        }
 		AttackResult newAttack = default(AttackResult);
 		int otherPlayer = (_playerIndex + 1) % 2;
 

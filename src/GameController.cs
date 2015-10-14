@@ -19,13 +19,11 @@ using static HighScoreController;
 /// </summary>
 static class GameController
 {
-
 	private static BattleShipsGame _theGame;
 	private static Player _human;
 
 	private static AIPlayer _ai;
-
-	private static Stack<GameState> _state = new Stack<GameState>();
+    private static Stack<GameState> _state = new Stack<GameState>();
 
 	private static AIOption _aiSetting;
 	/// <summary>
@@ -83,21 +81,20 @@ static class GameController
 		switch (_aiSetting) {
 			case AIOption.Medium:
 				_ai = new AIMediumPlayer(_theGame);
-				break;
+                break;
 			case AIOption.Hard:
 				_ai = new AIHardPlayer(_theGame);
-				break;
+                break;
 			default:
 				_ai = new AIHardPlayer(_theGame);
-				break;
+                break;
 		}
 
-		_human = new Player(_theGame);
+        _human = new Player(_theGame);
 
-		//AddHandler _human.PlayerGrid.Changed, AddressOf GridChanged
-		_ai.PlayerGrid.Changed += GridChanged;
-		_theGame.AttackCompleted += AttackCompleted;
-
+        //AddHandler _human.PlayerGrid.Changed, AddressOf GridChanged
+        _ai.PlayerGrid.Changed += GridChanged;
+        _theGame.AttackCompleted += AttackCompleted;
 		AddNewState(GameState.Deploying);
 	}
 
@@ -199,22 +196,61 @@ static class GameController
 		}
 	}
 
-	/// <summary>
-	/// Completes the deployment phase of the game and
-	/// switches to the battle mode (Discovering state)
-	/// </summary>
-	/// <remarks>
-	/// This adds the players to the game before switching
-	/// state.
-	/// </remarks>
-	public static void EndDeployment()
-	{
-		//deploy the players
-		_theGame.AddDeployedPlayer(_human);
-		_theGame.AddDeployedPlayer(_ai);
+    /// <summary>
+    /// Completes the deployment phase of the game and
+    /// switches to the battle mode (Discovering state)
+    /// </summary>
+    /// <remarks>
+    /// This adds the players to the game before switching
+    /// state.
+    /// </remarks>
 
-		SwitchState(GameState.Discovering);
-	}
+    private static Player _backup_player;
+    private static AIPlayer _backup_aiplayer;
+    public static void EndDeployment(bool isReset = false, bool isFirst = false)
+	{
+
+        if (isReset)
+        {
+
+            _human = ObjectCopier.Clone(_backup_player);
+            _ai = ObjectCopier.Clone(_backup_aiplayer);
+            _theGame.ResetDeployedPlayer();
+
+            //_human.Enemy = _backup_player.Enemy;
+            //_human.EnemyGrid = _backup_player.EnemyGrid;
+            //_human.Game = _backup_player.Game;
+            //_human.Hits = _backup_player.Hits;
+            //_human.Missed = _backup_player.Missed;
+            //_human.PlayerGrid = _backup_player.PlayerGrid;
+            //_human.Shots = _backup_player.Shots;
+
+            //_ai.Enemy = _backup_aiplayer.Enemy;
+            //_ai.EnemyGrid = _backup_aiplayer.EnemyGrid;
+            //_ai.Game = _backup_aiplayer.Game;
+            //_ai.Hits = _backup_aiplayer.Hits;
+            //_ai.Missed = _backup_aiplayer.Missed;
+            //_ai.PlayerGrid = _backup_aiplayer.PlayerGrid;
+            //_ai.Shots = _backup_aiplayer.Shots;
+            _theGame.AddDeployedPlayer(_human);
+            _theGame.AddDeployedPlayer(_ai);
+        }
+        else
+        {
+            //deploy the players
+            _theGame.AddDeployedPlayer(_human);
+            _theGame.AddDeployedPlayer(_ai);
+
+            if (isFirst)
+            {
+                _backup_player = ObjectCopier.Clone(_human);
+                _backup_aiplayer = ObjectCopier.Clone(_ai);
+            }
+          
+          
+        }
+        SwitchState(GameState.Discovering);
+    }
 
 	/// <summary>
 	/// Gets the player to attack the indicated row and column.
@@ -228,7 +264,7 @@ static class GameController
 	{
 		AttackResult result = default(AttackResult);
 		result = _theGame.Shoot(row, col);
-		CheckAttackResult(result);
+        CheckAttackResult(result);
 	}
 
 	/// <summary>
@@ -240,8 +276,16 @@ static class GameController
 	private static void AIAttack()
 	{
 		AttackResult result = default(AttackResult);
-		result = _theGame.Player.Attack();
-		CheckAttackResult(result);
+        result = _theGame.Player.Attack();
+        if (result.Value == ResultOfAttack.Miss)
+        {
+            _theGame.setPlayerIndex(0);
+        }
+        else
+        {
+            _theGame.setPlayerIndex(1);
+        }
+        CheckAttackResult(result);
 	}
 
 	/// <summary>
@@ -256,9 +300,14 @@ static class GameController
 	{
 		switch (result.Value) {
 			case ResultOfAttack.Miss:
-				if (object.ReferenceEquals(_theGame.Player, ComputerPlayer))
-					AIAttack();
-				break;
+                if (object.ReferenceEquals(_theGame.Player, ComputerPlayer) && _theGame.getPlayerIndex() == 1) // when human miss
+                {
+                    _theGame.setPlayerIndex(1);
+                    AIAttack();
+                }
+                else
+                    _theGame.setPlayerIndex(0);
+                break;
 			case ResultOfAttack.GameOver:
 				SwitchState(GameState.EndingGame);
 				break;
@@ -317,7 +366,7 @@ static class GameController
 
 		switch (CurrentState) {
 			case GameState.ViewingMainMenu:
-				DrawMainMenu();
+                DrawMainMenu();
 				break;
 			case GameState.ViewingGameMenu:
 				DrawGameMenu();
@@ -327,12 +376,12 @@ static class GameController
 				break;
 			case GameState.Deploying:
 				DrawDeployment();
-				break;
+                break;
 			case GameState.Discovering:
 				DrawDiscovery();
-				//Visibale Map
-				DrawField(ComputerPlayer.PlayerGrid, ComputerPlayer, true);
-				break;
+                DrawField(ComputerPlayer.PlayerGrid, ComputerPlayer, true);
+               
+                break;
 			case GameState.EndingGame:
 				DrawEndOfGame();
 				break;

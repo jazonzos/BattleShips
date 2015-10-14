@@ -9,6 +9,8 @@ using System.Diagnostics;
 /// Player has its own _PlayerGrid, and can see an _EnemyGrid, it can also check if
 /// all ships are deployed and if all ships are detroyed. A Player can also attach.
 /// </summary>
+
+[Serializable]
 public class Player : IEnumerable<Ship>
 {
 
@@ -16,8 +18,7 @@ public class Player : IEnumerable<Ship>
 	private Dictionary<ShipName, Ship> _Ships = new Dictionary<ShipName, Ship>();
 	private SeaGrid _playerGrid;
 	private ISeaGrid _enemyGrid;
-
-	protected BattleShipsGame _game;
+    protected BattleShipsGame _game;
 	private int _shots;
 	private int _hits;
 
@@ -38,12 +39,18 @@ public class Player : IEnumerable<Ship>
 	/// <value>The enemy's sea grid</value>
 	public ISeaGrid Enemy {
 		set { _enemyGrid = value; }
+        get { return _enemyGrid; }
 	}
+
+    public Player()
+    {
+
+    }
 
 	public Player(BattleShipsGame controller)
 	{
 		_game = controller;
-    _playerGrid = new SeaGrid(_Ships);
+         _playerGrid = new SeaGrid(_Ships);
 
 		//for each ship add the ships name so the seagrid knows about them
 		foreach (ShipName name in Enum.GetValues(typeof(ShipName))) {
@@ -68,7 +75,8 @@ public class Player : IEnumerable<Ship>
 	/// </summary>
 	public SeaGrid PlayerGrid {
 		get { return _playerGrid; }
-	}
+        set { _playerGrid = value; }
+    }
 
 	/// <summary>
 	/// ReadyToDeploy returns true if all ships are deployed
@@ -103,11 +111,13 @@ public class Player : IEnumerable<Ship>
 	/// <returns>teh number of shots taken</returns>
 	public int Shots {
 		get { return _shots; }
-	}
+        set { _shots = value; }
+    }
 
 	public int Hits {
 		get { return _hits; }
-	}
+        set { _hits = value; }
+    }
 
 	/// <summary>
 	/// Total number of shots that missed
@@ -116,6 +126,7 @@ public class Player : IEnumerable<Ship>
 	/// <returns>the number of shots that have missed ships</returns>
 	public int Missed {
 		get { return _misses; }
+        set { _misses = value; }
 	}
 
 	public int Score {
@@ -232,6 +243,16 @@ public class Player : IEnumerable<Ship>
 			} while (!placementSuccessful);
 		}
 	}
+
+    public void reset(SeaGrid pPlayerGrid,ISeaGrid pEnemyGrid)
+    {
+        _hits = 0;
+        _misses = 0;
+        _shots = 0;
+
+        PlayerGrid = pPlayerGrid;
+        EnemyGrid = pEnemyGrid;
+    }
 }
 
 //=======================================================

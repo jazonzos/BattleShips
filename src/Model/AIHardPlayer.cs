@@ -12,14 +12,16 @@ using System.Diagnostics;
 /// the AI knows it has hit multiple ships. Then will try to destoy all around tiles
 /// that have been hit.
 /// </summary>
+[Serializable]
 public class AIHardPlayer : AIPlayer
 {
 
-	/// <summary>
-	/// Target allows the AI to know more things, for example the source of a
-	/// shot target
-	/// </summary>
-	protected class Target
+    /// <summary>
+    /// Target allows the AI to know more things, for example the source of a
+    /// shot target
+    /// </summary>
+    [Serializable]
+    protected class Target
 	{
 		private readonly Location _ShotAt;
 
@@ -166,16 +168,18 @@ public class AIHardPlayer : AIPlayer
 		switch (result.Value) {
 			case ResultOfAttack.Miss:
 				_CurrentTarget = null;
-				break;
+                break;
 			case ResultOfAttack.Hit:
 				ProcessHit(row, col);
 				break;
 			case ResultOfAttack.Destroyed:
 				ProcessDestroy(row, col, result.Ship);
 				break;
-			case ResultOfAttack.ShotAlready:
-				throw new ApplicationException("Error in AI");
-		}
+			case ResultOfAttack.ShotAlready: //TODO error short already
+                _CurrentTarget = null;
+                break;
+                //throw new ApplicationException("Error in AI");
+        }
 
 		if (_Targets.Count == 0)
 			_CurrentState = AIStates.Searching;

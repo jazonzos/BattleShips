@@ -26,12 +26,12 @@ static class EndingGameController
 		DrawSmallField(HumanPlayer.PlayerGrid, HumanPlayer);
 ///Fix Win/Lose Notitication
 		if (HumanPlayer.IsDestroyed) {
-			SwinGame.DrawTextLines("YOU LOSE!", Color.Red, Color.Transparent, 
-									GameFont("ArialLarge"), FontAlignment.AlignCenter, 200, 150,
+			SwinGame.DrawTextLines("YOU LOSE!", Color.White, Color.Transparent, 
+									GameFont("ArialLarge"), FontAlignment.AlignCenter, 150, 150,
 				 					(SwinGame.ScreenWidth()/2), (SwinGame.ScreenHeight()/2));
 		} else {
-			SwinGame.DrawTextLines("YOU WIN!", Color.Green, Color.Transparent, 
-									GameFont("ArialLarge"), FontAlignment.AlignCenter, 200, 150, 
+			SwinGame.DrawTextLines("YOU WIN!", Color.White, Color.Transparent, 
+									GameFont("ArialLarge"), FontAlignment.AlignCenter, 150, 150, 
 									(SwinGame.ScreenWidth()/2), (SwinGame.ScreenHeight()/2));
 		}
 	}

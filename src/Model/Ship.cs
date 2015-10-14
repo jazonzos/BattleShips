@@ -13,6 +13,7 @@ using System.Diagnostics;
 /// <remarks>
 /// Deployment information is supplied to allow ships to be drawn.
 /// </remarks>
+[Serializable]
 public class Ship
 {
 	private ShipName _shipName;
