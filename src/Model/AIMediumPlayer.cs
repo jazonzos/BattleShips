@@ -10,6 +10,7 @@ using System.Diagnostics;
 /// The AIMediumPlayer is a type of AIPlayer where it will try and destroy a ship
 /// if it has found a ship
 /// </summary>
+[Serializable]
 public class AIMediumPlayer : AIPlayer
 {
 	/// <summary>
