@@ -28,7 +28,11 @@ static class GameResources
 		NewImage("UpDownButton", "deploy_dir_button_vert.png");
 		NewImage("SelectedShip", "deploy_button_hl.png");
 		NewImage("PlayButton", "deploy_play_button.png");
-		NewImage("RandomButton", "deploy_randomize_button.png");
+
+        //@Issue 5
+        NewImage("ResetButton", "deploy_button.png");
+
+        NewImage("RandomButton", "deploy_randomize_button.png");
 
 		//Ships
 		int i = 0;

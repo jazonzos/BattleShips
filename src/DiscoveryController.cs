@@ -46,6 +46,13 @@ static class DiscoveryController
                
                 DrawDiscovery();
             }
+
+            //@Issue 5
+            if (IsMouseInRectangle(600, 73, 150, 30))
+            {
+                EndCurrentState();
+            }
+
             else
             {
                 DoAttack();
@@ -101,6 +108,9 @@ static class DiscoveryController
 
         //@Issue 9 Lai Hoang Thanh Nguyen 05/09/2015
         SwinGame.DrawText("RESET", Color.Yellow, GameFont("Courier"), PLAY_BUTTON_LEFT + TEXT_OFFSET, TOP_BUTTONS_TOP);
+
+        //$Iuuse 5
+        SwinGame.DrawBitmap(GameImage("ResetButton"), 600, 73);
     }
 
 }
