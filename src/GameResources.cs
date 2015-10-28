@@ -30,7 +30,7 @@ static class GameResources
 		NewImage("PlayButton", "deploy_play_button.png");
 
         //@Issue 5
-        NewImage("ResetButton", "deploy_button.png");
+        NewImage("ResetButton", "reset_button.png");
 
         NewImage("RandomButton", "deploy_randomize_button.png");
 
