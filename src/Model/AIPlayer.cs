@@ -14,7 +14,7 @@ using SwinGameSDK;
 [Serializable]
 public abstract class AIPlayer : Player
 {
-
+	[Serializable]
     /// <summary>
     /// Location can store the location of the last hit made by an
     /// AI Player. The use of which determines the difficulty.
