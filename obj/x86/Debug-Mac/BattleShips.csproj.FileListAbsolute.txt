@@ -62,3 +62,4 @@ C:\Users\Minh\BattleShips\bin\Debug\nunit.framework.xml
 C:\Users\Minh\BattleShips\obj\x86\Debug-Mac\BattleShips.exe
 C:\Users\Minh\BattleShips\obj\x86\Debug-Mac\BattleShips.pdb
 C:\Users\Minh\BattleShips\obj\x86\Debug-Mac\BattleShips.csprojResolveAssemblyReference.cache
+C:\Users\Minh\BattleShips\bin\Debug\Resources\images\reset_button.png

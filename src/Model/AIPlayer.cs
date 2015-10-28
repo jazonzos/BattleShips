@@ -134,8 +134,8 @@ public abstract class AIPlayer : Player
 			//Dont delay if window is closed
 			if (SwinGame.WindowCloseRequested())
 				return;
-
-			SwinGame.Delay(5);
+            //@issue 10 Speed up the AI
+			//SwinGame.Delay(5);
 			SwinGame.ProcessEvents();
 			SwinGame.RefreshScreen();
 		}
